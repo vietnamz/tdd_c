@@ -24,40 +24,32 @@
 /*-    www.renaissancesoftware.net james@renaissancesoftware.net       -*/
 /*- ------------------------------------------------------------------ -*/
 
-#include "unity_fixture.h"
+
+#include "RuntimeErrorStub.h"
+
+static const char* message = "No Error";
+static int parameter = -1;
+static const char * file = 0;
+static int line = -1;
 
 
-#if 0 
-static void RunAllTests(void)
-{
-    RUN_TEST_GROUP(LedDriver);
+
+void RuntimeErrorStub_Reset(void) {
+	message = "No Error";
+	parameter = -1;
 }
-#endif 
 
-#if 1
-static void RunAllTests(void)
-{
-    //RUN_TEST_GROUP(sprintf);
-    RUN_TEST_GROUP(LedDriver);
+const char* RuntimeErrorStub_GetLastError(void) {
+	return message;
 }
-#endif 
 
-#if 0
-static void RunAllTests(void)
-{
-    /*    RUN_TEST_GROUP(unity); */
-    RUN_TEST_GROUP(LedDriver);
-    RUN_TEST_GROUP(sprintf);
-    RUN_TEST_GROUP(UnityFixture);
-    RUN_TEST_GROUP(UnityCommandOptions);
-    RUN_TEST_GROUP(LeakDetection);
-    RUN_TEST_GROUP(FakeTimeService);
-    RUN_TEST_GROUP(LightControllerSpy);
-    RUN_TEST_GROUP(LightScheduler);
-    RUN_TEST_GROUP(LightSchedulerInitAndCleanup);
+void RuntimeError(const char* m, int p, const char* f, int l) {
+	message = m;
+	parameter = p;
+	file = f;
+	line = l;
 }
-#endif
-int main(int argc, const char * argv[])
-{
-  return UnityMain(argc, argv, RunAllTests);
+
+int RuntimeErrorStub_GetLastParameter(void) {
+	return parameter;
 }

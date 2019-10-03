@@ -26,7 +26,14 @@
 
 #include "unity_fixture.h"
 
-#if 1 
+TEST_GROUP_RUNNER(LedDriver)
+{
+    RUN_TEST_CASE(LedDriver, LedsOffAfterCreate);
+    RUN_TEST_CASE(LedDriver, TurnOnLedOne);
+    RUN_TEST_CASE(LedDriver, TurnOffLedOne);
+}
+
+#if 0
 TEST_GROUP_RUNNER(LedDriver)
 {
     RUN_TEST_CASE(LedDriver, LedsOffAfterCreate);

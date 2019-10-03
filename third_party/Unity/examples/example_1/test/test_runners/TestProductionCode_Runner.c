@@ -19,8 +19,13 @@
 }
 
 /*=======Automagically Detected Files To Include=====*/
+#ifdef __WIN32__
+#define UNITY_INCLUDE_SETUP_STUBS
+#endif
 #include "unity.h"
+#ifndef UNITY_EXCLUDE_SETJMP_H
 #include <setjmp.h>
+#endif
 #include <stdio.h>
 #include "ProductionCode.h"
 
@@ -34,6 +39,24 @@ extern void test_FunctionWhichReturnsLocalVariable_ShouldReturnTheCurrentCounter
 extern void test_FunctionWhichReturnsLocalVariable_ShouldReturnCurrentCounter_ButFailsBecauseThisTestIsActuallyFlawed(void);
 
 
+/*=======Suite Setup=====*/
+static void suite_setup(void)
+{
+#if defined(UNITY_WEAK_ATTRIBUTE) || defined(UNITY_WEAK_PRAGMA)
+  suiteSetUp();
+#endif
+}
+
+/*=======Suite Teardown=====*/
+static int suite_teardown(int num_failures)
+{
+#if defined(UNITY_WEAK_ATTRIBUTE) || defined(UNITY_WEAK_PRAGMA)
+  return suiteTearDown(num_failures);
+#else
+  return num_failures;
+#endif
+}
+
 /*=======Test Reset Option=====*/
 void resetTest(void);
 void resetTest(void)
@@ -46,6 +69,7 @@ void resetTest(void)
 /*=======MAIN=====*/
 int main(void)
 {
+  suite_setup();
   UnityBegin("test/TestProductionCode.c");
   RUN_TEST(test_FindFunction_WhichIsBroken_ShouldReturnZeroIfItemIsNotInList_WhichWorksEvenInOurBrokenCode, 20);
   RUN_TEST(test_FindFunction_WhichIsBroken_ShouldReturnTheIndexForItemsInList_WhichWillFailBecauseOurFunctionUnderTestIsBroken, 30);
@@ -53,5 +77,5 @@ int main(void)
   RUN_TEST(test_FunctionWhichReturnsLocalVariable_ShouldReturnTheCurrentCounterValueAgain, 51);
   RUN_TEST(test_FunctionWhichReturnsLocalVariable_ShouldReturnCurrentCounter_ButFailsBecauseThisTestIsActuallyFlawed, 57);
 
-  return (UnityEnd());
+  return suite_teardown(UnityEnd());
 }

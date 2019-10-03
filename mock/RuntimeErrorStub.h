@@ -24,40 +24,13 @@
 /*-    www.renaissancesoftware.net james@renaissancesoftware.net       -*/
 /*- ------------------------------------------------------------------ -*/
 
-#include "unity_fixture.h"
+#ifndef D_RuntimeErrorStub_H
+#define D_RuntimeErrorStub_H
 
+//#include "RuntimeError.h"
 
-#if 0 
-static void RunAllTests(void)
-{
-    RUN_TEST_GROUP(LedDriver);
-}
-#endif 
+void RuntimeErrorStub_Reset(void);
+const char * RuntimeErrorStub_GetLastError(void);
+int RuntimeErrorStub_GetLastParameter(void);
 
-#if 1
-static void RunAllTests(void)
-{
-    //RUN_TEST_GROUP(sprintf);
-    RUN_TEST_GROUP(LedDriver);
-}
-#endif 
-
-#if 0
-static void RunAllTests(void)
-{
-    /*    RUN_TEST_GROUP(unity); */
-    RUN_TEST_GROUP(LedDriver);
-    RUN_TEST_GROUP(sprintf);
-    RUN_TEST_GROUP(UnityFixture);
-    RUN_TEST_GROUP(UnityCommandOptions);
-    RUN_TEST_GROUP(LeakDetection);
-    RUN_TEST_GROUP(FakeTimeService);
-    RUN_TEST_GROUP(LightControllerSpy);
-    RUN_TEST_GROUP(LightScheduler);
-    RUN_TEST_GROUP(LightSchedulerInitAndCleanup);
-}
 #endif
-int main(int argc, const char * argv[])
-{
-  return UnityMain(argc, argv, RunAllTests);
-}
